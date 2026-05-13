@@ -34,12 +34,14 @@ public class Wall_snatcher extends Robot {
 		peek = false;
 
 		// Alinhar com a parede  enconstar nela
-		turnRight(getHeading() % 90);
+		turnLeft(getHeading() % 270);
 		ahead(moveAmount);
 		// Ativa o scan antes de virar
 		peek = true;
 		// vira para se mover com a parede
 		turnLeft(90);
+
+// fazer um código aqui que mágicamente faça o robo se virar e tentar "desviar" do tiro e sair do scaner do robo inimigo
 
 		while (true) {
 			// Scan antes de virar

@@ -2,7 +2,7 @@
 * Opa, aqui to criando um robô para o robocode bem parecido com robô básico "wall", no caso, o diferêncial seria que ele foca em eliminar quaisquer robo na parede primeiro,
 * e então toma conta da parede para si, se tornando o único robo wall da rodada, no caso ele tenta ser, daí veio o nome dele "Wall snatcher"
 */
-
+//Слава Україні!
 
 package sample;
 
@@ -15,7 +15,7 @@ import java.awt.*;
 
 
 
-public class Wall_snatcher3 extends Robot {
+public class Wall_snatcher3 extends  Robot {
 
 	boolean peek; // Muda para caso seja neçessário scanear antes de virar
 	double moveAmount; // Distancia máxima da para ander pela parede
@@ -25,12 +25,12 @@ public class Wall_snatcher3 extends Robot {
 	public void run() {
 
         loop = 0;
-		// Set colors
-		setBodyColor(Color.black);
-		setGunColor(Color.white);
-		setRadarColor(Color.black);
-		setBulletColor(Color.yellow);
-		setScanColor(Color.white);
+		// Aqui vamos deixar ele coloridinho
+		setBodyColor(new Color(0, 87, 183));     //  azul principal
+		setGunColor(new Color(0, 60, 130));      //  azul mais escuro
+		setRadarColor(new Color(100, 149, 237)); //  azul claro
+		setBulletColor(new Color(255, 215, 0));  //  amarelo
+		setScanColor(new Color(255, 255, 102));  //  amarelo claro
 
 		// Aqui é onde consegue o tamanho da arena  
 		moveAmount = Math.max(getBattleFieldWidth(), getBattleFieldHeight());

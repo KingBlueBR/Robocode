@@ -1,0 +1,108 @@
+/**
+* Opa, aqui to criando um robô para o robocode bem parecido com robô básico "wall", no caso, o diferêncial seria que ele foca em eliminar quaisquer robo na parede primeiro,
+* e então toma conta da parede para si, se tornando o único robo wall da rodada, no caso ele tenta ser, daí veio o nome dele "Wall snatcher"
+*/
+
+
+package sample;
+
+
+import robocode.HitRobotEvent;
+import robocode.Robot;
+import robocode.ScannedRobotEvent;
+
+import java.awt.*;
+
+
+
+public class Wall_snatcher3 extends Robot {
+
+	boolean peek; // Muda para caso seja neçessário scanear antes de virar
+	double moveAmount; // Distancia máxima da para ander pela parede
+	double loop; // Serve para alterar o jeito que o robo age
+    double flag;
+	
+	public void run() {
+
+        loop = 0;
+		// Set colors
+		setBodyColor(Color.black);
+		setGunColor(Color.white);
+		setRadarColor(Color.black);
+		setBulletColor(Color.yellow);
+		setScanColor(Color.white);
+
+		// Aqui é onde consegue o tamanho da arena  
+		moveAmount = Math.max(getBattleFieldWidth(), getBattleFieldHeight());
+		// Initialize scanning flag to false
+		peek = false;
+
+		// Alinhar com a parede  enconstar nela
+		turnLeft(getHeading() % 270);
+		ahead(moveAmount);
+		// Ativa o scan antes de virar
+		peek = true;
+		// vira para se mover com a parede
+		turnLeft(90);
+    
+	    while (loop != 8) {
+
+            
+                // Scan antes de virar
+                peek = true;
+                // Anda para frente até o canto da arena
+                ahead(moveAmount);
+                // desliga o scaner
+                peek = false;
+                // vira para continuar na parede
+                turnLeft(90);
+                // adiciona 1 conta pro loop
+                loop = loop + 1;
+            }
+	     
+            turnGunLeft(90); // A arma e o scaner vai está mirando pro centro da arena
+
+         while (loop == 8) {
+         peek = true;
+         ahead(moveAmount);
+         peek = false;
+         turnLeft(90);
+        }
+
+  
+        }
+    
+
+	     public void onHitRobot(HitRobotEvent e) {
+		 // aqui onde fica a reação do robo quando ele atinge outro robo
+		 if (e.getBearing() > -90 && e.getBearing() < 90) {
+		 	back(100);
+		 } // ignora se o robo está atrás
+		 else {
+		 	ahead(100);
+		 }
+	     }
+	
+	     public void onScannedRobot(ScannedRobotEvent e) {
+	       // um robô detectado = atirar em potência máxima
+            if (loop != 8){
+            fire(3);
+         // Depois de atirar chama o radar novamente,
+          // antes de girar o canhão
+            scan();
+            }
+            // Entretanto, quando o canhão estiver agora com a mira para o centro da arena, ele vai calcular a distância
+            else {
+                if (e.getDistance() < 50 && getEnergy() > 50) {
+                fire(3);
+                } // caso contrário, atira com intensidade 1.
+                    else {
+                    fire(1);
+                    }
+// Depois de atirar chama o radar novamente,
+// antes de girar o canhão
+scan();
+
+            } 
+        }
+    }

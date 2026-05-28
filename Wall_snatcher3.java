@@ -4,7 +4,7 @@
 */
 //Слава Україні!
 
-package sample;
+package Walls;
 
 
 import robocode.HitRobotEvent;

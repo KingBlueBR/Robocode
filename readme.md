@@ -7,3 +7,4 @@ Após completar 8 voltas pela arena, o comportamento muda: o canhão passa a fic
 Em colisões, o robô tenta se afastar para evitar ficar preso em outros robôs durante a movimentação.
 
 Слава Україні!
+Criadores: Eduardo S. Isaac S. Gabriela G.

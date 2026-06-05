@@ -1,0 +1,76 @@
+/**
+* Opa, aqui to criando um robô para o robocode bem parecido com robô básico "wall", no caso, o diferêncial seria que ele foca em eliminar quaisquer robo na parede primeiro,
+* e então toma conta da parede para si, se tornando o único robo wall da rodada, no caso ele tenta ser, daí veio o nome dele "Wall snatcher"
+
+
+
+package sample;
+
+
+import robocode.HitRobotEvent;
+import robocode.Robot;
+import robocode.ScannedRobotEvent;
+
+import java.awt.*;
+
+
+
+public class Wall_snatcher extends Robot {
+
+	boolean peek; // Muda para caso seja neçessário scanear antes de virar
+	double moveAmount; // Distancia máxima da para ander pela parede
+
+	public void run() {
+		// Set colors
+		setBodyColor(Color.black);
+		setGunColor(Color.white);
+		setRadarColor(Color.black);
+		setBulletColor(Color.yellow);
+		setScanColor(Color.white);
+
+		// Aqui é onde consegue o tamanho da arena  
+		moveAmount = Math.max(getBattleFieldWidth(), getBattleFieldHeight());
+		// Initialize scanning flag to false
+		peek = false;
+
+		// Alinhar com a parede  enconstar nela
+		turnLeft(getHeading() % 270);
+		ahead(moveAmount);
+		// Ativa o scan antes de virar
+		peek = true;
+		// vira para se mover com a parede
+		turnLeft(90);
+
+// fazer um código aqui que mágicamente faça o robo se virar e tentar "desviar" do tiro e sair do scaner do robo inimigo
+
+		while (true) {
+			// Scan antes de virar
+			peek = true;
+			// Anda para frente até o canto da arena
+			ahead(moveAmount);
+			// desliga o scaner
+			peek = false;
+			// vira para continuar na parede
+			turnleft(90);
+		}
+	}
+
+	public void onHitRobot(HitRobotEvent e) {
+		// aqui onde fica a reação do robo quando ele atinge outro robo
+		if (e.getBearing() > -90 && e.getBearing() < 90) {
+			back(100);
+		} // ignora se o robo está atrás
+		else {
+			ahead(100);
+		}
+	}
+
+	public void onScannedRobot(ScannedRobotEvent e) {
+		// Atira com poder de nível 3
+		fire(3);
+		
+		if (peek) {
+			scan();
+		}
+	}
+}
